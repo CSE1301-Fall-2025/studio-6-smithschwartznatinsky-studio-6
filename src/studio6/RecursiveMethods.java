@@ -31,6 +31,15 @@ public class RecursiveMethods {
 	public static void circlesUponCircles(double xCenter, double yCenter, double radius, double radiusMinimumDrawingThreshold) {
 		
 		// FIXME complete the recursive drawing
+		if (radius < radiusMinimumDrawingThreshold) {
+			return;
+		}
+		StdDraw.circle(xCenter, yCenter, radius);
+		circlesUponCircles(xCenter + radius, yCenter, radius / 3, radiusMinimumDrawingThreshold);
+		circlesUponCircles(xCenter - radius, yCenter, radius / 3, radiusMinimumDrawingThreshold);
+		circlesUponCircles(xCenter, yCenter + radius, radius / 3, radiusMinimumDrawingThreshold);
+		circlesUponCircles(xCenter, yCenter - radius, radius / 3, radiusMinimumDrawingThreshold);
+	
 	}
 	
 
@@ -43,8 +52,26 @@ public class RecursiveMethods {
 	public static int[] toReversed(int[] array) {
 		
 			// FIXME create a helper method that can recursively reverse the given array
-			return new int[0];
+
+			int[] reversed = new int[array.length];
+			reverseHelper(array, reversed, 0);
+			return reversed;
+
 		
+	}
+
+	/**
+	 * Helper that fills dest with elements of src in reverse order.
+	 * @param src source array (not modified)
+	 * @param dest destination array to fill
+	 * @param index current index to write in dest (and mirrored read from src)
+	 */
+	private static void reverseHelper(int[] src, int[] dest, int index) {
+		if (index >= src.length) {
+			return;
+		}
+		dest[index] = src[src.length - 1 - index];
+		reverseHelper(src, dest, index + 1);
 	}
 
 	/**
@@ -57,8 +84,12 @@ public class RecursiveMethods {
 	 */
 	public static int gcd(int p, int q) {
 		
-			// FIXME compute the gcd of p and q using recursion
-			return 0;
+			if (p < 0) p = -p;
+			if (q < 0) q = -q;
+			if (q == 0) {
+				return p;
+			}
+			return gcd(q, p % q);
 		
 	}
 
